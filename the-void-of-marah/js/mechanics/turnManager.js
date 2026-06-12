@@ -161,6 +161,7 @@ function finalizeBattle(battle, state, venceu) {
       }
 
       const jaTem = state.colecionaveis.some(
+        item => item.nome === itemRecebido.nome,
         (item) => item.nome === itemRecebido.nome,
       );
 

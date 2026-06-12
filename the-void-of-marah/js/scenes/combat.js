@@ -1,11 +1,11 @@
-
-const BTN_W = 380;
-const BTN_H = 100;
+// Constantes de layout para o Menu de Ações (Grid 2x2)
+const BTN_W = 380; 
+const BTN_H = 100; 
 const BTN_SPACING = 20;
 
 // Botões na DIREITA (Embaixo da barra de vida do jogador)
-const MENU_X = 970;
-const MENU_Y = 720;
+const MENU_X = 970; 
+const MENU_Y = 720; 
 
 // O primeiro quadrado da esquerda em cima (Botão Soco)
 const BOTAO_SOCO = {
@@ -17,8 +17,8 @@ const BOTAO_SOCO = {
 
 // Novo botão CONTINUAR que aparecerá no centro da tela
 const BOTAO_CONTINUAR = {
-  x: 760,
-  y: 490,
+  x: 760, 
+  y: 490, 
   width: 400,
   height: 100,
 };
@@ -40,7 +40,7 @@ function renderCombat(ctx, assets, state, mouseX, mouseY) {
   desenharCenarioCombate(ctx, assets, state);
   desenharJogador(ctx, assets, state); // <- Nova função chamada aqui
   desenharHUDCombate(ctx, state);
-  desenharBotoesAcao(ctx, state);
+  desenharBotoesAcao(ctx, state); 
   desenharInimigos(ctx, state);
 }
 
@@ -49,74 +49,43 @@ function desenharInimigos(ctx, state) {
   if (!combat) return;
 
   // Diminuímos o X para 1350 para puxar ele mais para a esquerda
-  const enemyX = 1350;
-  const enemyY = 20;
+  const enemyX = 1350; 
+  const enemyY = 20;   
   const enemyW = 350;
   const enemyH = 350;
 
   let imgInimigo = null;
 
   switch (combat.enemyName) {
-    case "Slime":
-      imgInimigo = assets.slime;
-      break;
-    case "Goblin":
-      imgInimigo = assets.goblin;
-      break;
-    case "Orc":
-      imgInimigo = assets.orc;
-      break;
-    case "Wraith":
-      imgInimigo = assets.wraith;
-      break;
-    case "Flame Bat":
-      imgInimigo = assets.flameBat;
-      break;
-    case "Spectral Knight":
-      imgInimigo = assets.spectralKnight;
-      break;
-    case "Viper Mage":
-      imgInimigo = assets.viperMage;
-      break;
-    case "Iron Golem":
-    case "Golem":
-      imgInimigo = assets.golem;
-      break;
-    case "Crystal Serpent":
-      imgInimigo = assets.crystalSerpent;
-      break;
-    case "Void Stalker":
-      imgInimigo = assets.voidStalker;
-      break;
-    case "Shadow Lord":
-      imgInimigo = assets.bossShadowLord;
-      break;
-    case "Eclipse Queen":
-      imgInimigo = assets.eclipseQueen;
-      break;
-    case "Rei Espiral":
-      imgInimigo = assets.reiEspiral;
-      break;
-    default:
-      imgInimigo = null;
+    case "Slime": imgInimigo = assets.slime; break;
+    case "Goblin": imgInimigo = assets.goblin; break;
+    case "Orc": imgInimigo = assets.orc; break;
+    case "Wraith": imgInimigo = assets.wraith; break;
+    case "Flame Bat": imgInimigo = assets.flameBat; break;
+    case "Spectral Knight": imgInimigo = assets.spectralKnight; break;
+    case "Viper Mage": imgInimigo = assets.viperMage; break;
+    case "Iron Golem": 
+    case "Golem": imgInimigo = assets.golem; break;
+    case "Crystal Serpent": imgInimigo = assets.crystalSerpent; break;
+    case "Void Stalker": imgInimigo = assets.voidStalker; break;
+    case "Shadow Lord": imgInimigo = assets.bossShadowLord; break;
+    case "Eclipse Queen": imgInimigo = assets.eclipseQueen; break;
+    case "Rei Espiral": imgInimigo = assets.reiEspiral; break;
+    default: imgInimigo = null;
   }
 
-  if (
-    imgInimigo &&
-    imgInimigo.complete &&
-    imgInimigo.src !== window.location.href
-  ) {
+  if (imgInimigo && imgInimigo.complete && imgInimigo.src !== window.location.href) {
     ctx.drawImage(imgInimigo, enemyX, enemyY, enemyW, enemyH);
   } else {
     ctx.fillStyle = "#57606f";
     ctx.fillRect(enemyX, enemyY, enemyW, enemyH);
-
+    
     ctx.fillStyle = "#ffffff";
     ctx.font = "bold 24px Consolas, monospace";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("Sem Sprite", enemyX + enemyW / 2, enemyY + enemyH / 2);
-
+    
     ctx.textAlign = "left";
     ctx.textBaseline = "alphabetic";
   }
@@ -130,8 +99,8 @@ function desenharInimigos(ctx, state) {
 function iniciarCombate(state) {
   // Inicializa o estado de combate usando o turnManager
   state.combat = turnManager.createCombatState(state);
-
-  // GARANTIA ANTI-TRAVAMENTO: Se por algum motivo o jogador entrar no boss sem ataques
+  
+  // GARANTIA ANTI-TRAVAMENTO: Se por algum motivo o jogador entrar no boss sem ataques 
   // mapeados no state global, injetamos o "soco" padrão para não travar a UI.
   if (!state.ataques || state.ataques.length === 0) {
     state.ataques = ["soco"];
@@ -151,7 +120,7 @@ function desenharBotoesAcao(ctx, state) {
     { x: MENU_X, y: MENU_Y },
     { x: MENU_X + BTN_W + BTN_SPACING, y: MENU_Y },
     { x: MENU_X, y: MENU_Y + BTN_H + BTN_SPACING },
-    { x: MENU_X + BTN_W + BTN_SPACING, y: MENU_Y + BTN_H + BTN_SPACING },
+    { x: MENU_X + BTN_W + BTN_SPACING, y: MENU_Y + BTN_H + BTN_SPACING }
   ];
 
   const botoes = [];
@@ -159,6 +128,7 @@ function desenharBotoesAcao(ctx, state) {
   for (let i = 0; i < 4; i++) {
     if (i < state.ataques.length) {
       const nomeChaveAtk = state.ataques[i];
+
       
       // Proteção total contra objetos undefined ou falta do dicionário global
       const atk = (typeof ATAQUES_JOGO !== "undefined" && ATAQUES_JOGO[nomeChaveAtk])
@@ -169,13 +139,15 @@ function desenharBotoesAcao(ctx, state) {
             dano: state.stats?.ataque || 10,
           };
 
+      
+
       botoes.push({
         id: atk.id,
         texto: atk.nome,
         subtexto: `DANO: ${atk.dano}`,
         x: posicoesGrid[i].x,
         y: posicoesGrid[i].y,
-        ativo: !combat.finalizado,
+        ativo: !combat.finalizado
       });
     } else {
       botoes.push({
@@ -184,20 +156,19 @@ function desenharBotoesAcao(ctx, state) {
         subtexto: null,
         x: posicoesGrid[i].x,
         y: posicoesGrid[i].y,
-        ativo: false,
+        ativo: false
       });
     }
   }
 
-  botoes.forEach((btn) => {
-    const isHover =
-      btn.ativo &&
+  botoes.forEach(btn => {
+    const isHover = btn.ativo &&
       combateMouseXGlobal >= btn.x &&
       combateMouseXGlobal <= btn.x + BTN_W &&
       combateMouseYGlobal >= btn.y &&
       combateMouseYGlobal <= btn.y + BTN_H;
 
-    ctx.fillStyle = !btn.ativo ? "#999" : isHover ? "#ffcc33" : "#ffbb00";
+    ctx.fillStyle = !btn.ativo ? "#999" : (isHover ? "#ffcc33" : "#ffbb00");
     ctx.fillRect(btn.x, btn.y, BTN_W, BTN_H);
 
     ctx.strokeStyle = "#1f1f2b";
@@ -209,20 +180,20 @@ function desenharBotoesAcao(ctx, state) {
     ctx.textBaseline = "middle";
 
     if (btn.subtexto) {
-      ctx.font = "bold 32px sans-serif";
+      ctx.font = "bold 32px sans-serif"; 
       ctx.fillText(btn.texto, btn.x + BTN_W / 2, btn.y + BTN_H / 2 - 12);
-
-      ctx.font = "bold 20px sans-serif";
+      
+      ctx.font = "bold 20px sans-serif"; 
       ctx.fillText(btn.subtexto, btn.x + BTN_W / 2, btn.y + BTN_H / 2 + 18);
     } else {
-      ctx.font = "bold 32px sans-serif";
+      ctx.font = "bold 32px sans-serif"; 
       ctx.fillText(btn.texto, btn.x + BTN_W / 2, btn.y + BTN_H / 2);
     }
   });
 
   if (combat.finalizado) {
     const btnCont = BOTAO_CONTINUAR;
-    const hoverCont =
+    const hoverCont = 
       combateMouseXGlobal >= btnCont.x &&
       combateMouseXGlobal <= btnCont.x + btnCont.width &&
       combateMouseYGlobal >= btnCont.y &&
@@ -236,14 +207,10 @@ function desenharBotoesAcao(ctx, state) {
     ctx.strokeRect(btnCont.x, btnCont.y, btnCont.width, btnCont.height);
 
     ctx.fillStyle = "#1f1f2b";
-    ctx.font = "bold 40px sans-serif";
+    ctx.font = "bold 40px sans-serif"; 
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(
-      "CONTINUAR",
-      btnCont.x + btnCont.width / 2,
-      btnCont.y + btnCont.height / 2,
-    );
+    ctx.fillText("CONTINUAR", btnCont.x + btnCont.width / 2, btnCont.y + btnCont.height / 2);
   }
 
   ctx.textAlign = "start";
@@ -253,11 +220,7 @@ function desenharBotoesAcao(ctx, state) {
 
 function desenharCenarioCombate(ctx, assets, state) {
   // Verifica se a imagem do fundo carregou corretamente
-  if (
-    assets.fundoCombat &&
-    assets.fundoCombat.complete &&
-    assets.fundoCombat.src !== window.location.href
-  ) {
+  if (assets.fundoCombat && assets.fundoCombat.complete && assets.fundoCombat.src !== window.location.href) {
     // Desenha a imagem preenchendo a tela toda (1920x1080)
     ctx.drawImage(assets.fundoCombat, 0, 0, 1920, 1080);
   } else {
@@ -274,56 +237,54 @@ function desenharCenarioCombate(ctx, assets, state) {
  */
 function desenharJogador(ctx, assets, state) {
   // Aumentamos a altura de 350 para 520 (mais perto da câmera = maior)
-  let playerH = 520;
-
-  // Descemos o eixo Y de 400 para 280.
+  let playerH = 520; 
+  
+  // Descemos o eixo Y de 400 para 280. 
   // (280 + 520 de altura = 800. Os pés vão bater na linha 800 da tela, bem no primeiro plano da grama)
-  let playerY = 280;
-
+  let playerY = 280; 
+  
   let playerW = 350; // Fallback
-  let playerX = 450;
+  let playerX = 450; 
 
   let imgJogador = null;
 
   const idPersonagem = state.personagemSelecionado?.toLowerCase();
 
   if (idPersonagem === "maya") {
-    imgJogador = assets.mayaCombat;
+    imgJogador = assets.mayaCombat; 
   } else if (idPersonagem === "zeck") {
-    imgJogador = assets.zeckCombat;
+    imgJogador = assets.zeckCombat; 
   }
 
   // Desenha a imagem se estiver carregada, senão usa uma cor de placeholder
-  if (
-    imgJogador &&
-    imgJogador.complete &&
-    imgJogador.src !== window.location.href
-  ) {
+  if (imgJogador && imgJogador.complete && imgJogador.src !== window.location.href) {
+    
     // Mantém a proporção matemática com a nova altura gigante
     playerW = imgJogador.width * (playerH / imgJogador.height);
-
+    
     // Trava o centro do personagem no mesmo eixo X de antes (pixel 625)
-    playerX = 625 - playerW / 2;
+    playerX = 625 - (playerW / 2);
 
     // Liga a suavização de alta qualidade
     ctx.save();
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
-
+    
     ctx.drawImage(imgJogador, playerX, playerY, playerW, playerH);
-
+    
     ctx.restore();
+
   } else {
     // Fallback visual
     ctx.fillStyle = "#341f97";
     ctx.fillRect(playerX + 50, playerY + 50, playerW - 100, playerH - 100);
-
+    
     ctx.fillStyle = "#ffffff";
     ctx.font = "bold 20px Consolas, monospace";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText("Hero Sprite", playerX + playerW / 2, playerY + playerH / 2);
-
+    
     ctx.textAlign = "left";
     ctx.textBaseline = "alphabetic";
   }
@@ -340,74 +301,55 @@ function desenharHUDCombate(ctx, state) {
   // ---- STATUS DO INIMIGO (ESQUERDA DA CAIXA)
   // ==========================================
   const enemyBarW = 780;
-  const enemyStartX = 1200 - enemyBarW;
+  const enemyStartX = 1200 - enemyBarW; 
   const enemyTextoY = 105;
-  const enemyBarY = 120;
+  const enemyBarY = 120; 
 
   ctx.fillStyle = "#1f1f2b";
   ctx.font = "bold 38px Consolas, monospace";
 
-  ctx.textAlign = "left";
+  ctx.textAlign = "left"; 
   const textoNomeInimigo = combat.enemyName || "Inimigo";
   ctx.fillText(textoNomeInimigo, enemyStartX, enemyTextoY);
 
   ctx.textAlign = "right";
   const textoDefesaInimigo = `DEFESA: ${combat.enemyDefense || 0}`;
   ctx.fillText(textoDefesaInimigo, enemyStartX + enemyBarW, enemyTextoY);
-
+  
   const wEnemyDef = ctx.measureText(textoDefesaInimigo).width;
   if (assets.iconDefesa && assets.iconDefesa.complete) {
-    ctx.drawImage(
-      assets.iconDefesa,
-      enemyStartX + enemyBarW - wEnemyDef - 45,
-      enemyTextoY - 32,
-      32,
-      32,
-    );
+    ctx.drawImage(assets.iconDefesa, enemyStartX + enemyBarW - wEnemyDef - 45, enemyTextoY - 32, 32, 32);
   }
-
+  
   ctx.textAlign = "center";
   ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-  ctx.fillText("|", enemyStartX + enemyBarW / 2, enemyTextoY);
+  ctx.fillText("|", enemyStartX + (enemyBarW / 2), enemyTextoY);
 
-  ctx.textAlign = "left";
-  desenharBarraVida(
-    ctx,
-    enemyStartX,
-    enemyBarY,
-    enemyBarW,
-    40,
-    combat.enemyHP,
-    combat.enemyMaxHP,
-    "#ff4c4c",
-  );
-
+  ctx.textAlign = "left"; 
+  desenharBarraVida(ctx, enemyStartX, enemyBarY, enemyBarW, 40, combat.enemyHP, combat.enemyMaxHP, "#ff4c4c");
+  
   if (assets.iconVida && assets.iconVida.complete) {
     ctx.drawImage(assets.iconVida, enemyStartX + 10, enemyBarY + 4, 32, 32);
   }
   ctx.font = "bold 24px Consolas, monospace";
   ctx.fillStyle = "white";
-  ctx.fillText(
-    `HP: ${combat.enemyHP}/${combat.enemyMaxHP}`,
-    enemyStartX + 50,
-    enemyBarY + 28,
-  );
+  ctx.fillText(`HP: ${combat.enemyHP}/${combat.enemyMaxHP}`, enemyStartX + 50, enemyBarY + 28);
 
   // ==========================================
   // ---- STATUS DO JOGADOR (DIREITA) ---------
   // ==========================================
-  const playerStartX = MENU_X;
-  const playerBarW = 780;
-  const playerTextoY = 645;
-  const playerBarY = 660;
+  const playerStartX = MENU_X; 
+  const playerBarW = 780; 
+  const playerTextoY = 645; 
+  const playerBarY = 660; 
 
   ctx.fillStyle = "#1f1f2b";
   ctx.font = "bold 38px Consolas, monospace";
-
+  
   const nomePlayer = state.personagemSelecionado?.toUpperCase() || "PLAYER";
   const strDefesa = `DEFESA: ${combat.playerDefense || state.stats?.defesa || 0}`;
   const strDano = `DANO: ${state.stats?.ataque || 0}`;
-
+  
   ctx.textAlign = "left";
   ctx.fillText(nomePlayer, playerStartX, playerTextoY);
 
@@ -415,55 +357,30 @@ function desenharHUDCombate(ctx, state) {
   ctx.fillText(strDano, playerStartX + playerBarW, playerTextoY);
   const wDano = ctx.measureText(strDano).width;
   if (assets.iconDano && assets.iconDano.complete) {
-    ctx.drawImage(
-      assets.iconDano,
-      playerStartX + playerBarW - wDano - 45,
-      playerTextoY - 32,
-      32,
-      32,
-    );
+    ctx.drawImage(assets.iconDano, playerStartX + playerBarW - wDano - 45, playerTextoY - 32, 32, 32);
   }
 
   ctx.textAlign = "center";
-  const centerPlayerX = playerStartX + playerBarW / 2;
+  const centerPlayerX = playerStartX + (playerBarW / 2);
   ctx.fillText(strDefesa, centerPlayerX, playerTextoY);
   const wDefPlayer = ctx.measureText(strDefesa).width;
   if (assets.iconDefesa && assets.iconDefesa.complete) {
-    ctx.drawImage(
-      assets.iconDefesa,
-      centerPlayerX - wDefPlayer / 2 - 45,
-      playerTextoY - 32,
-      32,
-      32,
-    );
+    ctx.drawImage(assets.iconDefesa, centerPlayerX - (wDefPlayer / 2) - 45, playerTextoY - 32, 32, 32);
   }
 
   ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-  ctx.fillText("|", playerStartX + playerBarW * 0.28, playerTextoY);
-  ctx.fillText("|", playerStartX + playerBarW * 0.72, playerTextoY);
+  ctx.fillText("|", playerStartX + (playerBarW * 0.28), playerTextoY);
+  ctx.fillText("|", playerStartX + (playerBarW * 0.72), playerTextoY);
 
-  ctx.textAlign = "left";
-  desenharBarraVida(
-    ctx,
-    playerStartX,
-    playerBarY,
-    playerBarW,
-    40,
-    combat.playerHP,
-    combat.playerMaxHP,
-    "#66b3ff",
-  );
-
+  ctx.textAlign = "left"; 
+  desenharBarraVida(ctx, playerStartX, playerBarY, playerBarW, 40, combat.playerHP, combat.playerMaxHP, "#66b3ff");
+  
   if (assets.iconVida && assets.iconVida.complete) {
     ctx.drawImage(assets.iconVida, playerStartX + 10, playerBarY + 4, 32, 32);
   }
   ctx.font = "bold 24px Consolas, monospace";
   ctx.fillStyle = "white";
-  ctx.fillText(
-    `HP: ${combat.playerHP}/${combat.playerMaxHP}`,
-    playerStartX + 50,
-    playerBarY + 28,
-  );
+  ctx.fillText(`HP: ${combat.playerHP}/${combat.playerMaxHP}`, playerStartX + 50, playerBarY + 28);
 
   // ==========================================
   // ---- LOG DE BATALHA (EMBAIXO DO JOGADOR) -
@@ -491,7 +408,7 @@ function desenharHUDCombate(ctx, state) {
     ctx.strokeRect(itemCardX, itemCardY, itemCardW, itemCardH);
 
     ctx.fillStyle = "#1f1f2b";
-    ctx.font = "bold 28px Consolas, monospace";
+    ctx.font = "bold 28px Consolas, monospace"; 
     ctx.fillText("Item recebido", itemCardX + 30, itemCardY + 40);
 
     ctx.font = "bold 24px Consolas, monospace";
@@ -500,14 +417,7 @@ function desenharHUDCombate(ctx, state) {
     ctx.font = "18px Consolas, monospace";
     // Usando o wrapText e limitando a largura (maxWidth) para 280 pixels,
     // assim o texto quebra de linha antes de encostar na caixa da imagem (X + 330)
-    wrapText(
-      ctx,
-      item.descricao || "Espaço para trocar depois.",
-      itemCardX + 30,
-      itemCardY + 118,
-      280,
-      22,
-    );
+    wrapText(ctx, item.descricao || "Espaço para trocar depois.", itemCardX + 30, itemCardY + 118, 280, 22);
 
     ctx.fillStyle = "#f4f4f7";
     ctx.fillRect(itemCardX + 330, itemCardY + 30, 130, 100);
@@ -516,21 +426,21 @@ function desenharHUDCombate(ctx, state) {
 
     // Tenta buscar a imagem do item usando a propriedade imgId definida no array GACHA_ITENS
     const imgItem = assets[item.imgId];
-
+    
     // Se a imagem existir e já estiver carregada, desenha na tela
     if (imgItem && imgItem.complete && imgItem.src !== window.location.href) {
-      // Desenha a imagem ocupando o espaço da caixa cinza (130x100)
-      // Se a pixel art ficar esticada, você pode ajustar as dimensões aqui.
-      ctx.drawImage(imgItem, itemCardX + 330, itemCardY + 30, 130, 100);
+        // Desenha a imagem ocupando o espaço da caixa cinza (130x100)
+        // Se a pixel art ficar esticada, você pode ajustar as dimensões aqui.
+        ctx.drawImage(imgItem, itemCardX + 330, itemCardY + 30, 130, 100);
     } else {
-      // Fallback caso a imagem não carregue
-      ctx.fillStyle = "#1f1f2b";
-      ctx.font = "bold 20px Consolas, monospace";
-      ctx.textAlign = "center";
-      ctx.fillText("Sem", itemCardX + 395, itemCardY + 72);
-      ctx.fillText("Img", itemCardX + 395, itemCardY + 102);
+        // Fallback caso a imagem não carregue
+        ctx.fillStyle = "#1f1f2b";
+        ctx.font = "bold 20px Consolas, monospace";
+        ctx.textAlign = "center";
+        ctx.fillText("Sem", itemCardX + 395, itemCardY + 72);
+        ctx.fillText("Img", itemCardX + 395, itemCardY + 102);
     }
-
+    
     ctx.restore();
 
     ctx.textAlign = "left";
@@ -538,9 +448,9 @@ function desenharHUDCombate(ctx, state) {
 }
 
 function desenharBarraVida(ctx, x, y, width, height, current, max, color) {
-  if (!max || max <= 0) max = 1;
+  if (!max || max <= 0) max = 1; 
   const ratio = Math.max(0, Math.min(1, current / max));
-
+  
   ctx.fillStyle = "#4a4a5a";
   ctx.fillRect(x, y, width, height);
 
@@ -553,13 +463,105 @@ function desenharBarraVida(ctx, x, y, width, height, current, max, color) {
 }
 
 
+<<<<<<< HEAD
+=======
+  if (!state.ataques) state.ataques = ["soco"];
+
+  const posicoesGrid = [
+    { x: MENU_X, y: MENU_Y },
+    { x: MENU_X + BTN_W + BTN_SPACING, y: MENU_Y },
+    { x: MENU_X, y: MENU_Y + BTN_H + BTN_SPACING },
+    { x: MENU_X + BTN_W + BTN_SPACING, y: MENU_Y + BTN_H + BTN_SPACING }
+  ];
+
+  const botoes = [];
+
+  for (let i = 0; i < 4; i++) {
+    if (i < state.ataques.length) {
+      const atk = ATAQUES_JOGO[state.ataques[i]];
+      botoes.push({
+        id: atk.id,
+        texto: atk.nome,
+        subtexto: `DANO: ${atk.dano}`,
+        x: posicoesGrid[i].x,
+        y: posicoesGrid[i].y,
+        ativo: !combat.finalizado
+      });
+    } else {
+      botoes.push({
+        id: `vazio${i}`,
+        texto: "---",
+        subtexto: null,
+        x: posicoesGrid[i].x,
+        y: posicoesGrid[i].y,
+        ativo: false
+      });
+    }
+  }
+
+  botoes.forEach(btn => {
+    const isHover = btn.ativo &&
+      combateMouseXGlobal >= btn.x &&
+      combateMouseXGlobal <= btn.x + BTN_W &&
+      combateMouseYGlobal >= btn.y &&
+      combateMouseYGlobal <= btn.y + BTN_H;
+
+    ctx.fillStyle = !btn.ativo ? "#999" : (isHover ? "#ffcc33" : "#ffbb00");
+    ctx.fillRect(btn.x, btn.y, BTN_W, BTN_H);
+
+    ctx.strokeStyle = "#1f1f2b";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(btn.x, btn.y, BTN_W, BTN_H);
+
+    ctx.fillStyle = "#1f1f2b";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    if (btn.subtexto) {
+      ctx.font = "bold 32px sans-serif"; 
+      ctx.fillText(btn.texto, btn.x + BTN_W / 2, btn.y + BTN_H / 2 - 12);
+      
+      ctx.font = "bold 20px sans-serif"; 
+      ctx.fillText(btn.subtexto, btn.x + BTN_W / 2, btn.y + BTN_H / 2 + 18);
+    } else {
+      ctx.font = "bold 32px sans-serif"; 
+      ctx.fillText(btn.texto, btn.x + BTN_W / 2, btn.y + BTN_H / 2);
+    }
+  });
+
+  if (combat.finalizado) {
+    const btnCont = BOTAO_CONTINUAR;
+    const hoverCont = 
+      combateMouseXGlobal >= btnCont.x &&
+      combateMouseXGlobal <= btnCont.x + btnCont.width &&
+      combateMouseYGlobal >= btnCont.y &&
+      combateMouseYGlobal <= btnCont.y + btnCont.height;
+
+    ctx.fillStyle = hoverCont ? "#ffcc33" : "#ffbb00";
+    ctx.fillRect(btnCont.x, btnCont.y, btnCont.width, btnCont.height);
+
+    ctx.strokeStyle = "#1f1f2b";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(btnCont.x, btnCont.y, btnCont.width, btnCont.height);
+
+    ctx.fillStyle = "#1f1f2b";
+    ctx.font = "bold 40px sans-serif"; 
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("CONTINUAR", btnCont.x + btnCont.width / 2, btnCont.y + btnCont.height / 2);
+  }
+
+  ctx.textAlign = "start";
+  ctx.textBaseline = "alphabetic";
+}
+>>>>>>> 06d4540ed63be10de3f63f9f23414b55554ff6ea
 
 function executarAtaque(state, ataqueEscolhido) {
-  if (turnManager) turnManager.handlePlayerAction(state, ataqueEscolhido);
+  if(turnManager) turnManager.handlePlayerAction(state, ataqueEscolhido);
 }
 
 function finalizarCombate(state, venceu) {
-  if (turnManager) turnManager.finalizeBattle(state.combat, state, venceu);
+  if(turnManager) turnManager.finalizeBattle(state.combat, state, venceu);
 }
 
 function continuarDepoisDoCombate(state) {
@@ -567,7 +569,7 @@ function continuarDepoisDoCombate(state) {
   if (!combat || !combat.finalizado) return;
 
   // 1. Configura as flags padrão para o próximo frame
-  if (typeof controleMovimento !== "undefined") {
+  if (typeof controleMovimento !== 'undefined') {
     controleMovimento.dadoAtivo = true;
     controleMovimento.esperandoEscolha = false;
     controleMovimento.animandoPulo = false;
@@ -576,47 +578,44 @@ function continuarDepoisDoCombate(state) {
 
   if (combat.venceu) {
     if (combat.itemRecebido) {
-      if (!state.colecionaveis) {
-        state.colecionaveis = [];
-      }
 
-      const jaTem = state.colecionaveis.some(
-        (item) => item.nome === combat.itemRecebido.nome,
-      );
-
-      if (!jaTem) {
-        state.colecionaveis.push(combat.itemRecebido);
-      }
+    if (!state.colecionaveis) {
+      state.colecionaveis = [];
     }
+
+    const jaTem = state.colecionaveis.some(
+      item => item.nome === combat.itemRecebido.nome
+    );
+
+    if (!jaTem) {
+      state.colecionaveis.push(combat.itemRecebido);
+    }
+  }
     if (state.bossTransition === "paraFase2") {
       state.fase = 2;
       state.casaAtual = 0;
       state.opcoesDeCaminho = [];
-      if (typeof controleMovimento !== "undefined")
-        controleMovimento.passosRestantes = 0;
+      if (typeof controleMovimento !== 'undefined') controleMovimento.passosRestantes = 0;
       state.bossTransition = null;
     } else if (state.bossTransition === "paraFase3") {
       state.fase = 3;
       state.casaAtual = 0;
       state.opcoesDeCaminho = [];
-      if (typeof controleMovimento !== "undefined")
-        controleMovimento.passosRestantes = 0;
+      if (typeof controleMovimento !== 'undefined') controleMovimento.passosRestantes = 0;
       state.bossTransition = null;
     } else if (state.bossTransition === "reiniciar") {
       state.casaAtual = 0;
       state.opcoesDeCaminho = [];
-      if (typeof controleMovimento !== "undefined")
-        controleMovimento.passosRestantes = 0;
+      if (typeof controleMovimento !== 'undefined') controleMovimento.passosRestantes = 0;
       state.bossTransition = null;
     } else {
       state.bossTransition = null;
-      if (typeof controleMovimento !== "undefined") {
+      if (typeof controleMovimento !== 'undefined') {
         if (controleMovimento.passosRestantes <= 0) {
           controleMovimento.dadoAtivo = true;
         } else {
-          controleMovimento.dadoAtivo = false;
-          controleMovimento.esperandoEscolha =
-            state.opcoesDeCaminho && state.opcoesDeCaminho.length > 1;
+          controleMovimento.dadoAtivo = false; 
+          controleMovimento.esperandoEscolha = (state.opcoesDeCaminho && state.opcoesDeCaminho.length > 1);
         }
       }
     }
@@ -624,39 +623,34 @@ function continuarDepoisDoCombate(state) {
     state.stats.vida = state.stats.vidaMax;
     state.casaAtual = 0;
     state.opcoesDeCaminho = [];
-    if (typeof controleMovimento !== "undefined")
-      controleMovimento.passosRestantes = 0;
+    if (typeof controleMovimento !== 'undefined') controleMovimento.passosRestantes = 0;
     state.bossTransition = null;
   }
 
-  // 2. O PULO DO GATO: Injeta uma função de força bruta que vai rodar repetidamente
+  // 2. O PULO DO GATO: Injeta uma função de força bruta que vai rodar repetidamente 
   // no loop do jogo durante os próximos frames para impedir que o tabuleiro suma com o dado!
   state.forçarExibicaoDado = true;
   state.dadoAtivo = true;
 
   let checagensRestantes = 30; // Garante a trava ativa por 30 frames após a transição
-
+  
   const forcarDadoNoTabuleiro = () => {
-    if (typeof controleMovimento !== "undefined") {
+    if (typeof controleMovimento !== 'undefined') {
       // Se ainda restarem passos de um monstro comum no meio do caminho, respeita o fluxo
-      if (
-        combat.venceu &&
-        !state.bossTransition &&
-        controleMovimento.passosRestantes > 0
-      ) {
-        return;
+      if (combat.venceu && !state.bossTransition && controleMovimento.passosRestantes > 0) {
+        return; 
       }
       // Caso contrário, força o dado a ficar visível e ativo
       controleMovimento.dadoAtivo = true;
     }
     state.dadoAtivo = true;
-
+    
     checagensRestantes--;
     if (checagensRestantes > 0) {
       requestAnimationFrame(forcarDadoNoTabuleiro);
     }
   };
-
+  
   // Dispara a força bruta
   requestAnimationFrame(forcarDadoNoTabuleiro);
 
@@ -667,7 +661,7 @@ function continuarDepoisDoCombate(state) {
 }
 
 function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-  if (!text) return;
+  if (!text) return; 
 
   const words = text.split(" ");
   let line = "";
@@ -687,16 +681,12 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
   ctx.fillText(line, x, y);
 }
 
+
 // ==========================================
 // EVENTO CLICK ATUALIZADO (BLINDADO)
 // ==========================================
 window.addEventListener("mousedown", (event) => {
-  if (
-    !combateStateGlobal ||
-    combateStateGlobal.cena !== "combat" ||
-    event.button !== 0
-  )
-    return;
+  if (!combateStateGlobal || combateStateGlobal.cena !== "combat" || event.button !== 0) return;
 
   const canvas = document.getElementById("gameCanvas");
   if (!canvas) return;
@@ -718,18 +708,15 @@ window.addEventListener("mousedown", (event) => {
       continuarDepoisDoCombate(combateStateGlobal);
     }
   } else {
-    if (
-      !combateStateGlobal.ataques ||
-      combateStateGlobal.ataques.length === 0
-    ) {
+    if (!combateStateGlobal.ataques || combateStateGlobal.ataques.length === 0) {
       combateStateGlobal.ataques = ["soco"];
     }
-
+    
     const posicoesGrid = [
       { x: MENU_X, y: MENU_Y },
       { x: MENU_X + BTN_W + BTN_SPACING, y: MENU_Y },
       { x: MENU_X, y: MENU_Y + BTN_H + BTN_SPACING },
-      { x: MENU_X + BTN_W + BTN_SPACING, y: MENU_Y + BTN_H + BTN_SPACING },
+      { x: MENU_X + BTN_W + BTN_SPACING, y: MENU_Y + BTN_H + BTN_SPACING }
     ];
 
     // Varre apenas os ataques que o jogador de fato tem disponíveis
@@ -742,17 +729,13 @@ window.addEventListener("mousedown", (event) => {
         clickY <= pos.y + BTN_H
       ) {
         const nomeChave = combateStateGlobal.ataques[i];
-
+        
         // Verificação defensiva antes de chamar executarAtaque
         let ataqueEscolhido;
-        if (typeof ATAQUES_JOGO !== "undefined" && ATAQUES_JOGO[nomeChave]) {
+        if (typeof ATAQUES_JOGO !== 'undefined' && ATAQUES_JOGO[nomeChave]) {
           ataqueEscolhido = ATAQUES_JOGO[nomeChave];
         } else {
-          ataqueEscolhido = {
-            id: nomeChave,
-            nome: nomeChave.toUpperCase(),
-            dano: combateStateGlobal.stats?.ataque || 10,
-          };
+          ataqueEscolhido = { id: nomeChave, nome: nomeChave.toUpperCase(), dano: combateStateGlobal.stats?.ataque || 10 };
         }
 
         executarAtaque(combateStateGlobal, ataqueEscolhido);
