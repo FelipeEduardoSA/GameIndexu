@@ -108,11 +108,14 @@ function createCombatState(state) {
     playerMaxHP: player.maxHp,
   };
 
-  state.combatBoss = false;
   syncBattleSnapshot(battle, state);
+  
+  // Modificado: desative apenas depois de sincronizar tudo com sucesso
+  state.combatBoss = false; 
 
   return battle;
 }
+
 
 // Sincroniza os valores de exibição entre o objeto de batalha e o estado global.
 function syncBattleSnapshot(battle, state) {

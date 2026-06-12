@@ -2,6 +2,9 @@
 const LARGURA_PISO = 110;
 const ALTURA_PISO = 60;
 const ESPESSURA = 15;
+const DISTANCIA_X_UI = 50; // <- ADICIONE ESTA LINHA PARA EVITAR ERROS DE UNDEFINED!
+
+
 
 const CASAS = {
   NORMAL: { cor: "#ffffff" },

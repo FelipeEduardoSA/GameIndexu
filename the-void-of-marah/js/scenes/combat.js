@@ -158,16 +158,16 @@ function desenharBotoesAcao(ctx, state) {
 
   for (let i = 0; i < 4; i++) {
     if (i < state.ataques.length) {
-      // Proteção contra chaves inexistentes no objeto global ATAQUES_JOGO
       const nomeChaveAtk = state.ataques[i];
-      const atk =
-        typeof ATAQUES_JOGO !== "undefined" && ATAQUES_JOGO[nomeChaveAtk]
-          ? ATAQUES_JOGO[nomeChaveAtk]
-          : {
-              id: nomeChaveAtk,
-              nome: nomeChaveAtk.toUpperCase(),
-              dano: state.stats?.ataque || 10,
-            };
+      
+      // Proteção total contra objetos undefined ou falta do dicionário global
+      const atk = (typeof ATAQUES_JOGO !== "undefined" && ATAQUES_JOGO[nomeChaveAtk])
+        ? ATAQUES_JOGO[nomeChaveAtk]
+        : {
+            id: nomeChaveAtk,
+            nome: nomeChaveAtk.toUpperCase(),
+            dano: state.stats?.ataque || 10,
+          };
 
       botoes.push({
         id: atk.id,
@@ -249,6 +249,7 @@ function desenharBotoesAcao(ctx, state) {
   ctx.textAlign = "start";
   ctx.textBaseline = "alphabetic";
 }
+
 
 function desenharCenarioCombate(ctx, assets, state) {
   // Verifica se a imagem do fundo carregou corretamente
@@ -551,104 +552,7 @@ function desenharBarraVida(ctx, x, y, width, height, current, max, color) {
   ctx.strokeRect(x, y, width, height);
 }
 
-function desenharBotoesAcao(ctx, state) {
-  const combat = state.combat;
-  if (!combat) return;
 
-  if (!state.ataques) state.ataques = ["soco"];
-
-  const posicoesGrid = [
-    { x: MENU_X, y: MENU_Y },
-    { x: MENU_X + BTN_W + BTN_SPACING, y: MENU_Y },
-    { x: MENU_X, y: MENU_Y + BTN_H + BTN_SPACING },
-    { x: MENU_X + BTN_W + BTN_SPACING, y: MENU_Y + BTN_H + BTN_SPACING },
-  ];
-
-  const botoes = [];
-
-  for (let i = 0; i < 4; i++) {
-    if (i < state.ataques.length) {
-      const atk = ATAQUES_JOGO[state.ataques[i]];
-      botoes.push({
-        id: atk.id,
-        texto: atk.nome,
-        subtexto: `DANO: ${atk.dano}`,
-        x: posicoesGrid[i].x,
-        y: posicoesGrid[i].y,
-        ativo: !combat.finalizado,
-      });
-    } else {
-      botoes.push({
-        id: `vazio${i}`,
-        texto: "---",
-        subtexto: null,
-        x: posicoesGrid[i].x,
-        y: posicoesGrid[i].y,
-        ativo: false,
-      });
-    }
-  }
-
-  botoes.forEach((btn) => {
-    const isHover =
-      btn.ativo &&
-      combateMouseXGlobal >= btn.x &&
-      combateMouseXGlobal <= btn.x + BTN_W &&
-      combateMouseYGlobal >= btn.y &&
-      combateMouseYGlobal <= btn.y + BTN_H;
-
-    ctx.fillStyle = !btn.ativo ? "#999" : isHover ? "#ffcc33" : "#ffbb00";
-    ctx.fillRect(btn.x, btn.y, BTN_W, BTN_H);
-
-    ctx.strokeStyle = "#1f1f2b";
-    ctx.lineWidth = 4;
-    ctx.strokeRect(btn.x, btn.y, BTN_W, BTN_H);
-
-    ctx.fillStyle = "#1f1f2b";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    if (btn.subtexto) {
-      ctx.font = "bold 32px sans-serif";
-      ctx.fillText(btn.texto, btn.x + BTN_W / 2, btn.y + BTN_H / 2 - 12);
-
-      ctx.font = "bold 20px sans-serif";
-      ctx.fillText(btn.subtexto, btn.x + BTN_W / 2, btn.y + BTN_H / 2 + 18);
-    } else {
-      ctx.font = "bold 32px sans-serif";
-      ctx.fillText(btn.texto, btn.x + BTN_W / 2, btn.y + BTN_H / 2);
-    }
-  });
-
-  if (combat.finalizado) {
-    const btnCont = BOTAO_CONTINUAR;
-    const hoverCont =
-      combateMouseXGlobal >= btnCont.x &&
-      combateMouseXGlobal <= btnCont.x + btnCont.width &&
-      combateMouseYGlobal >= btnCont.y &&
-      combateMouseYGlobal <= btnCont.y + btnCont.height;
-
-    ctx.fillStyle = hoverCont ? "#ffcc33" : "#ffbb00";
-    ctx.fillRect(btnCont.x, btnCont.y, btnCont.width, btnCont.height);
-
-    ctx.strokeStyle = "#1f1f2b";
-    ctx.lineWidth = 4;
-    ctx.strokeRect(btnCont.x, btnCont.y, btnCont.width, btnCont.height);
-
-    ctx.fillStyle = "#1f1f2b";
-    ctx.font = "bold 40px sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(
-      "CONTINUAR",
-      btnCont.x + btnCont.width / 2,
-      btnCont.y + btnCont.height / 2,
-    );
-  }
-
-  ctx.textAlign = "start";
-  ctx.textBaseline = "alphabetic";
-}
 
 function executarAtaque(state, ataqueEscolhido) {
   if (turnManager) turnManager.handlePlayerAction(state, ataqueEscolhido);
